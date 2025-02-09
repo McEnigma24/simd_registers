@@ -7,6 +7,7 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif()
 
+include_directories(external/highway)
 include_directories(_inc)
 aux_source_directory(_src SOURCES)
 aux_source_directory(_src TEST_SOURCES)
