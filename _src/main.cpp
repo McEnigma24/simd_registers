@@ -26,7 +26,13 @@ namespace hwy
     } // namespace HWY_NAMESPACE
 } // namespace hwy
 HWY_AFTER_NAMESPACE();
-HWY_EXPORT(AddVectors);
+
+#if HWY_ONCE
+namespace hwy
+{
+    HWY_EXPORT(AddVectors);
+} // namespace hwy
+#endif
 
 int main(int argc, char* argv[])
 {

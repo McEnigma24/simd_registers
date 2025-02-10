@@ -67,7 +67,8 @@ install_packages()
         g++
         libstdc++-11-dev
         gcc-multilib
-        g++-multilib        
+        g++-multilib
+        libhwy-dev
     )
 
     # Aktualizacja listy pakietów

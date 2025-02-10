@@ -7,7 +7,8 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif()
 
-include_directories(external/highway)
+# find_package(HWY 1.2.0)
+
 include_directories(_inc)
 aux_source_directory(_src SOURCES)
 aux_source_directory(_src TEST_SOURCES)
@@ -20,6 +21,9 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -march=native")
 set(EXE_NAME "out.exe")
 add_executable(${EXE_NAME} ${SOURCES})
 target_compile_definitions(${EXE_NAME} PRIVATE LINUX)
+# target_compile_definitions(${EXE_NAME} PRIVATE HWY_DISABLED_TARGETS="(HWY_AVX3|HWY_AVX3_DL)")
+# target_compile_definitions(${EXE_NAME} PRIVATE HWY_DISABLED_TARGETS="(HWY_AVX3|(HWY_AVX3-1))")
+target_link_libraries(${EXE_NAME} PRIVATE hwy)
 set_target_properties(${EXE_NAME} PROPERTIES COMPILE_FLAGS "-m64" LINK_FLAGS "-m64")
 
 # Włączenie testów
