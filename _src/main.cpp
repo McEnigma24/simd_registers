@@ -47,19 +47,35 @@ int main(int argc, char* argv[])
     UTILS::clear_terminal();
     time_stamp("It just works");
 
-    __m256i a = _mm256_set_epi32(10, 9, 8, 7, 6, 5, 4, 3);
-    __m256i b = _mm256_set_epi32(3, 4, 5, 6, 7, 8, 9, 10);
-
-    __m256i result = _mm256_add_epi32(a, b);
-
-    int32_t* res = (int32_t*)&result;
-
-    std::cout << "Wynik dodawania: ";
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 1000; i++)
     {
-        std::cout << res[i] << " ";
+        int32_t a[8] = {10, 9, 8, 7, 6, 5, 4, 3};
+        int32_t b[8] = {3, 4, 5, 6, 7, 8, 9, 10};
+        int32_t result[8] = {0};
+
+        for (int index = 0; index < 8; index++)
+        {
+            result[index] = a[index] + b[index];
+        }
     }
-    std::cout << std::endl;
+    time_stamp("Iterative");
+
+    for (int i = 0; i < 1000; i++)
+    {
+        __m256i a = _mm256_set_epi32(10, 9, 8, 7, 6, 5, 4, 3);
+        __m256i b = _mm256_set_epi32(3, 4, 5, 6, 7, 8, 9, 10);
+
+        __m256i result = _mm256_add_epi32(a, b);
+        int32_t* res = (int32_t*)&result;
+    }
+    time_stamp("SIMD");
+
+    // std::cout << "Wynik dodawania: ";
+    // for (int i = 0; i < 8; i++)
+    // {
+    //     std::cout << res[i] << " ";
+    // }
+    // std::cout << std::endl;
 
     time_stamp("DONE");
     return 0;
