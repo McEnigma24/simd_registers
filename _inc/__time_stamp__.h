@@ -16,27 +16,63 @@ std::string get_current_local_time()
 std::string calculate_time_difference()
 {
     auto now = std::chrono::steady_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(now - time_stamp_last_time);
+    auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(now - time_stamp_last_time);
     time_stamp_last_time = now; // Aktualizuj czas ostatniego pomiaru
 
-    // Konwersja na jednostki czasu
-    long long milliseconds = duration.count();
-    long long hours = milliseconds / (1000 * 60 * 60);
-    milliseconds %= (1000 * 60 * 60);
-    long long minutes = milliseconds / (1000 * 60);
-    milliseconds %= (1000 * 60);
-    long long seconds = milliseconds / 1000;
-    milliseconds %= 1000;
+    // // Konwersja na jednostki czasu
+    // long long milliseconds = duration.count();
+    // long long hours = milliseconds / (1000 * 60 * 60);
+    // milliseconds %= (1000 * 60 * 60);
+    // long long minutes = milliseconds / (1000 * 60);
+    // milliseconds %= (1000 * 60);
+    // long long seconds = milliseconds / 1000;
+    // milliseconds %= 1000;
 
-    // Formatowanie wyniku
+    // Konwersja na jednostki czasu
+    long long nanoseconds = duration.count();
+    long long hours = nanoseconds / (1000LL * 1000 * 1000 * 60 * 60);
+    nanoseconds %= (1000LL * 1000 * 1000 * 60 * 60);
+    long long minutes = nanoseconds / (1000LL * 1000 * 1000 * 60);
+    nanoseconds %= (1000LL * 1000 * 1000 * 60);
+    long long seconds = nanoseconds / (1000LL * 1000 * 1000);
+    nanoseconds %= (1000LL * 1000 * 1000);
+    long long milliseconds = nanoseconds / (1000LL * 1000);
+    nanoseconds %= (1000LL * 1000);
+    long long microseconds = nanoseconds / 1000LL;
+    nanoseconds %= 1000LL;
+
+    bool show_all_other = false;
     std::ostringstream oss;
     if (hours > 0)
+    {
+        show_all_other = true;
         oss << hours << "h ";
-    if (minutes > 0 || hours > 0)
+    }
+    if (minutes > 0 || show_all_other)
+    {
+        show_all_other = true;
         oss << minutes << "m ";
-    if (seconds > 0 || minutes > 0 || hours > 0)
+    }
+    if (seconds > 0 || show_all_other)
+    {
+        show_all_other = true;
         oss << seconds << "s ";
-    oss << milliseconds << "ms";
+    }
+    if (milliseconds > 0 || show_all_other)
+    {
+        show_all_other = true;
+        oss << milliseconds << "mili ";
+    }
+    if (microseconds > 0 || show_all_other)
+    {
+        show_all_other = true;
+        oss << microseconds << "micro ";
+    }
+    if (nanoseconds > 0 || show_all_other)
+    {
+        show_all_other = true;
+        oss << nanoseconds << "nano ";
+    }
     return oss.str();
 }
 
