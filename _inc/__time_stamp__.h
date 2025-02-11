@@ -40,7 +40,8 @@ std::string calculate_time_difference()
     return oss.str();
 }
 
-#define time_stamp(x)                                                                                                                                          \
-    std::cout << "\nTIME_STAMP: " << setw(50) << left << x << right << " " << get_current_local_time() << " (+ " << calculate_time_difference() << ")\n";
+#define time_stamp(x)                                                                                                  \
+    std::cout << "\nTIME_STAMP: " << setw(50) << left << x << right << " " << get_current_local_time() << " (+ "       \
+              << calculate_time_difference() << ")\n";
 #define time_stamp_reset() calculate_time_difference();
 // #define time_stamp(x)
